@@ -6,8 +6,14 @@ def env_email():
     remetente = credentials[0]
     senha = credentials[1]
     destinatario = credentials[0]
-    assunto = ''
-    corpo = ''
+    assunto = 'Website Down'
+    corpo = '''
+    Web site http://pudim.com.br/ fora do ar!
+    
+    Favor verificar.
+    
+    Att.
+    '''
     mensagem = f'Subject: {assunto}\n\n{corpo}'
     try:
         with smtplib.SMTP('smtp.gmail.com', 587) as servidor:
