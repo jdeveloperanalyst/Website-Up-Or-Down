@@ -1,8 +1,11 @@
+from credenciais import *
+import smtplib
+
+
 def env_email():
-    import smtplib
-    remetente = ''
-    senha = ''
-    destinatario = ''
+    remetente = credentials[0]
+    senha = credentials[1]
+    destinatario = credentials[0]
     assunto = ''
     corpo = ''
     mensagem = f'Subject: {assunto}\n\n{corpo}'
