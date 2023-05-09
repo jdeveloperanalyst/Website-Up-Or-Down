@@ -1,12 +1,25 @@
 import urllib.request
 import urllib.error
-from enviar_email import enviar_email
+from lib import*
+from time import sleep
+
 
 cont = 0
-try:
-    site = urllib.request.urlopen('http://pudim.')
-except urllib.error.URLError as e:
-    # enviar_email(str(e))
-    print(e)
-else:
-    print('\033[0;32mWebsite UP!\033[m')
+error = ''
+log = 'Logs.txt'
+while cont < 3:
+    try:
+        site = urllib.request.urlopen('http://pudim.')
+        print('\033[0;32mWebsite UP!\033[m')
+        break
+    except urllib.error.URLError as e:
+        error = str(e)
+        if cont == 0:
+            criar_arquivo(log, error)
+        else:
+            atualizar_arquivo(log, error)
+        sleep(5)
+        cont += 1
+if cont == 3:
+    print('Tentativas de conexão esgotadas.')
+    # enviar_email(str(error))
