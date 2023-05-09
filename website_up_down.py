@@ -18,8 +18,9 @@ while cont < 3:
             criar_arquivo(log, error)
         else:
             atualizar_arquivo(log, error)
-        sleep(5)
-        cont += 1
+        sleep(120)
+    cont += 1
 if cont == 3:
     print('Tentativas de conexão esgotadas.')
+    logs_email(log, error)
     # enviar_email(str(error))

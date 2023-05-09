@@ -4,3 +4,4 @@
 credenciais/
 __pycache__/website_up_down.cpython-310.pyc
 __pycache__/enviar_email.cpython-310.pyc
+lib/__pycache__/__init__.cpython-310.pyc
