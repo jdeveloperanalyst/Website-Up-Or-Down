@@ -1,25 +1,25 @@
-from credenciais import *
 import smtplib
+import email.message
+from credenciais import*
 
 
-def env_email():
-    remetente = credentials[0]
-    senha = credentials[1]
-    destinatario = credentials[0]
-    assunto = 'Website Down'
-    corpo = '''
-    Web site http://pudim.com.br/ fora do ar!
-    
-    Favor verificar.
-    
-    Att.
-    '''
-    mensagem = f'Subject: {assunto}\n\n{corpo}'
-    try:
-        with smtplib.SMTP('smtp.gmail.com', 587) as servidor:
-            servidor.starttls()
-            servidor.login(remetente, senha)
-            servidor.sendmail(remetente, destinatario, mensagem)
-            print('E-mail enviado com sucesso!')
-    except Exception as e:
-        print(f'Erro ao enviar o e-mail: {e}')
+def enviar_email(mensagem_erro=''):
+    corpo_email = f"""
+    <p>\033[0;31mWebsite fora do ar!!!\033[m</p>
+    <p>Erro: {mensagem_erro}</p>
+    """
+
+    msg = email.message.Message()
+    msg['Subject'] = "Website Down"
+    msg['From'] = credentials['user']
+    msg['To'] = credentials['user']
+    password = credentials['password']
+    msg.add_header('Content-Type', 'text/html')
+    msg.set_payload(corpo_email)
+
+    s = smtplib.SMTP('smtp.gmail.com: 587')
+    s.starttls()
+    # Login Credentials for sending the mail
+    s.login(msg['From'], password)
+    s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
+    print('Email enviado')

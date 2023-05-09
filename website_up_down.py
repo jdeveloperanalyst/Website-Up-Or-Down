@@ -1,11 +1,12 @@
 import urllib.request
 import urllib.error
+from enviar_email import enviar_email
 
-
+cont = 0
 try:
-    site = urllib.request.urlopen('http://pudim.com.br/')
+    site = urllib.request.urlopen('http://pudim.')
 except urllib.error.URLError as e:
-    print('\033[0;31mO Website não está acessível no momento.\033[m')
+    # enviar_email(str(e))
     print(e)
 else:
     print('\033[0;32mWebsite UP!\033[m')
