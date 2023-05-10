@@ -1,24 +1,28 @@
 import os
 import smtplib
 import email.message
-from email.mime import base
+from email.mime import base, multipart
 from credenciais import*
 from datetime import datetime
 
 
-def enviar_email(mensagem_erro=''):
+def enviar_email(mensagem_erro):
     corpo_email = f"""
-    <p>\033[0;31mWebsite fora do ar!!!\033[m</p>
+    <p>Website unavailable!!!</p>
     <p>Erro: {mensagem_erro}</p>
+    <p>Logs attached for your analysis.</p>
     """
 
-    msg = email.message.Message()
+    msg = multipart.MIMEMultipart()
     msg['Subject'] = "Website Down"
     msg['From'] = credentials['user']
     msg['To'] = credentials['user']
     password = credentials['password']
-    msg.add_header('Content-Type', 'text/html')
-    msg.set_payload(corpo_email)
+
+    corpo = email.message.Message()
+    corpo.add_header('Content-Type', 'text/html')
+    corpo.set_payload(corpo_email)
+    msg.attach(corpo)
 
     anx = open('logs.txt', 'rb')
     anexo = base.MIMEBase('application', 'octet-stream')
@@ -43,7 +47,7 @@ def criar_arquivo(arq, msg_erro=''):
         a.write('-' * 133)
         a.write(f'\n{text:>88}\n')
         a.write('-' * 133)
-        a.write(f'\n\nConnection failure: Próxima tentativa em 5 segundos... > | ERRO: {msg_erro} | {data_hora_atual}\n')
+        a.write(f'\n\nConnection failure: Next attempt in 10 seconds... > | Error: {msg_erro} | {data_hora_atual}\n')
         a.write('-' * 133)
         a.close()
     except:
@@ -61,7 +65,7 @@ def atualizar_arquivo(arq, msg_erro=''):
         print('Houve algum erro na abertura do arquivo')
     else:
         try:
-            a.write(f'\nConnection failure: Próxima tentativa em 5 segundos... > | ERRO: {msg_erro} | {data_hora_atual}\n')
+            a.write(f'\nConnection failure: Next attempt in 10 seconds... > | Error: {msg_erro} | {data_hora_atual}\n')
             a.write('-' * 133)
         except:
             print('Houve um erro na hora de escrever os dados')
@@ -79,7 +83,7 @@ def logs_email(arq, msg_erro=''):
         print('Houve algum erro na abertura do arquivo')
     else:
         try:
-            a. write(f'\nConnection failure: Alerta enviado por e-mail > | ERRO: {msg_erro} | {data_hora_atual}\n')
+            a. write(f'\nConnection failure: Alert sent by email > | Error: {msg_erro} | {data_hora_atual}\n')
             a.write('-' * 133)
         except:
             print('Houve um erro na hora de escrever os dados')
