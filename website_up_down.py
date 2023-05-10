@@ -11,7 +11,7 @@ msg_erro_email = ''
 log = 'Logs.txt'
 while cont < 3:
     try:
-        site = urllib.request.urlopen('http://pudim.')
+        site = urllib.request.urlopen('http://pudim.com.br/')
         print('\033[0;32mWebsite UP!\033[m')
         break
     except urllib.error.URLError as e:
